@@ -14,9 +14,9 @@ D = 0.02; % Diameter (m)
 A = pi*(D/2)^2;  % Cross-sectional area (m^2)
 mass = 0.05;  % Mass (kg)
 g = 9.81; % Acceleration due to gravity (m/s^2)
-n = 6;
+n = 21;
 %% Varying sidewind
-wind_vel = [linspace(0,20,n);linspace(0,0,n)]; % Wind velocity (m/s) 
+wind_vel = [linspace(0,50,n);linspace(0,0,n)]; % Wind velocity (m/s) 
 figure();
 hold on;
 xend = zeros([1,n]);
@@ -41,7 +41,7 @@ xlabel('X Position (m)');
 ylabel('Y Position (m)');
 zlabel('Z Position (m)');
 zlim([-20,0])
-xlim([0,20])
+xlim([0,50])
 ylim([0,75])
 title('3D Trajectory of the Object');
 grid on;
@@ -51,19 +51,21 @@ hold off;
 
 figure()
 plot(wind_vel(1,:),xend,'LineWidth', 2)
-xlim([0,20])
-ylim([0,10])
+xlim([0,50])
+ylim([0,35])
 xlabel("North Wind Velocity (m/s)")
 ylabel("Horizontal Displacement (m)")
 title("Horizontal Displacement vs Wind Velocity")
+grid on;
 
 figure()
 plot(wind_vel(1,:),normend,'LineWidth', 2)
-xlim([0,20])
-ylim([70,74])
+xlim([0,50])
+ylim([68,74])
 xlabel("North Wind Velocity (m/s)")
-ylabel("Horizontal Displacement (m)")
+ylabel("Total Displacement (m)")
 title("Total Displacement vs Wind Velocity")
+grid on;
 
 %% Varying altitudes and headiwnds
 
@@ -71,7 +73,7 @@ n = 101;
 altitudes = [0,500,1000,1500,2000];
 [rho] = stdatmo(altitudes);
 m = length(rho);
-wind_vel = [linspace(0,0,n);linspace(-20,20,n)]; % Wind velocity (m/s)
+wind_vel = [linspace(0,50,n);linspace(0,0,n)]; % Wind velocity (m/s)
 normend = zeros([m,n]);
 for j = 1:m
 for i = 1:n
@@ -89,7 +91,7 @@ end
 figure()
 hold on;
 for i = 1:m
-plot(wind_vel(2,:),normend(i,:),'DisplayName', altitudes(i) + "m",'LineWidth', 2)
+plot(wind_vel(1,:),normend(i,:),'DisplayName', altitudes(i) + "m",'LineWidth', 2)
 end
 legend('Location','southeast')
 grid on;
@@ -115,7 +117,7 @@ m = 6;
 logmass = linspace(-3,2,m);
 mass = 0.05 * 2.^logmass;
 Energy = 0.5 * 0.05 * 2 * 20^2;
-wind_vel = [linspace(0,0,n);linspace(-20,20,n)]; % Wind velocity (m/s)
+wind_vel = [linspace(0,50,n);linspace(0,0,n)]; % Wind velocity (m/s)
 normend = zeros([m,n]);
 for j = 1:m
 for i = 1:n
@@ -136,7 +138,7 @@ normend;
 figure()
 hold on;
 for i = 1:m
-plot(wind_vel(2,:),normend(i,:),'DisplayName', mass(i) + "kg",'LineWidth', 2)
+plot(wind_vel(1,:),normend(i,:),'DisplayName', mass(i) + "kg",'LineWidth', 2)
 end
 legend('Location','northwest')
 grid on;

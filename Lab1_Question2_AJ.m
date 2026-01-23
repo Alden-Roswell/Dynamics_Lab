@@ -24,7 +24,7 @@ n = 6;
 %% Varying sidewind
 %% vary wind velocity from 0-50 to observe its effects
 wind_vel = [linspace(0,50,n);linspace(0,0,n)]; % Wind velocity (m/s) 
-figure();
+figure(1);
 hold on;
 xend = zeros([1,n]);
 normend = zeros([1,n]);
@@ -57,9 +57,9 @@ grid on;
 axis equal;
 view(3);
 hold off;
-
+saveas(1, "3dPlot", "jpg")
 % Plot effects of sidewind on horizontal displacement
-figure()
+figure(2)
 plot(wind_vel(1,:),xend,'LineWidth', 2)
 xlim([0,50])
 ylim([0,35])
@@ -67,9 +67,10 @@ xlabel("North Wind Velocity (m/s)")
 ylabel("Horizontal Displacement (m)")
 title("Horizontal Displacement vs Wind Velocity")
 grid on;
+saveas(2, "HorizontalDisplacementVSWindVel", "jpg")
 
 % Plot effects of sidewind on total displacement
-figure()
+figure(3)
 plot(wind_vel(1,:),normend,'LineWidth', 2)
 xlim([0,50])
 ylim([68,74])
@@ -77,7 +78,7 @@ xlabel("North Wind Velocity (m/s)")
 ylabel("Total Displacement (m)")
 title("Total Displacement vs Wind Velocity")
 grid on;
-
+saveas(3, "TotallDisplacementVSWindVel", "jpg")
 %% Varying altitudes and headiwnds
 
 n = 101;
@@ -102,7 +103,7 @@ for i = 1:n
 end
 end
 %Plot of total displacement based on altitude and wind velocity
-figure()
+figure(4)
 hold on;
 for i = 1:m
 plot(wind_vel(1,:),normend(i,:),'DisplayName', altitudes(i) + "m",'LineWidth', 2)
@@ -112,15 +113,15 @@ grid on;
 xlabel("Wind Velocity (m/s)")
 ylabel("Total Displacement (m)")
 title("Distance vs Wind Velocity at Different Altitudes")
-
+saveas(4, "TotallDisplacementVSWindVel&Altitude", "jpg")
 %Plot of total displacement vs altitude
-figure()
+figure(5)
 plot(altitudes,normend(:,1),'LineWidth', 2)
 grid on;
 xlabel("Geopotential Altitude (m)")
 ylabel("Total Distance (m)")
 title("Distance vs Altitude With 20 m/s Headwind")
-
+saveas(5, "TotallDisplacementVSAltitude", "jpg")
 
 %% Varying Mass 
 n = 101;
@@ -153,7 +154,7 @@ for i = 1:n
 end
 end
 %% Plot effects of different mass and wind velocity  on total displacement 
-figure()
+figure(6)
 hold on;
 for i = 1:m
 plot(wind_vel(1,:),normend(i,:),'DisplayName', mass(i) + "kg",'LineWidth', 2)
@@ -163,7 +164,7 @@ grid on;
 xlabel("Wind Velocity (m/s)")
 ylabel("Total Displacement (m)")
 title("Preformance of Different Mass Projectiles")
-
+saveas(6, "TotallDisplacementVSWindVel&Mass", "jpg")
 
 function xdot = objectEOM(t,x,rho,Cd,A,m,g,wind_vel)
 

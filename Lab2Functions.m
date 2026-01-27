@@ -13,6 +13,10 @@ vEC2;
 
 [t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData("3801_Sec001_Test1.csv");
 
+%% Question 3
+% On the same figure, plot the 3D position of both objects in frame 𝑁𝑁; draw the aerospace vehicle's path
+% in solid blue and the target's path in dashed red. Label all axes and include a legend. Be sure to follow
+% the plotting best practices presented in Lab 1.
 figure()
 hold on;
 set(gca,'Zdir','reverse','Ydir','reverse')
@@ -20,11 +24,38 @@ scatter3(av_pos_inert(1,:),av_pos_inert(2,:),av_pos_inert(3,:))
   % tar_pos_inert(1,:),tar_pos_inert(2,:),tar_pos_inert(3,:),color = "blue",color = "red")
 scatter3(tar_pos_inert(1,:),tar_pos_inert(2,:),tar_pos_inert(3,:), color = "blue")
 
-xlabel("X");
-ylabel("Y");
-zlabel("Z");
+xlabel("X (mm)");
+ylabel("Y (mm)");
+zlabel("Z (mm)");
 axis equal;
 
+
+%% Question 4
+% Create two figures. On the first figure, create three subplots with each subplot displaying one
+% component of the position vector in frame 𝐸𝐸 as a function of time for each object (aerospace vehicle in
+% blue, target in red). On the second figure, create three subplots with each subplot displaying one of the
+% 3-2-1 Euler angles (in degrees) as a function of time for each object relative to frame 𝐸𝐸.
+
+
+%% Question 5
+% For both objects, calculate the 3-1-3 Euler angles that describe the orientation of the object relative to
+% frame 𝐸𝐸 over time. To calculate the 3-1-3 Euler angles (of either the aerospace vehicle or target), first use
+% the 3-2-1 Euler angles to calculate the direction cosine matrix (DCM) that describes the body-fixed frame
+% (of either the aerospace vehicle or target) relative to frame 𝐸𝐸. Then, determine the 3-1-3 Euler angles (of
+% either the aerospace vehicle or target) from the associated DCM. After these calculations, create a figure
+% with three subplots. Each subplot displays each Euler angle (in degrees) as a function of time for the two
+% objects (aerospace vehicle in blue, target in red).
+
+
+%% Question 6
+% Calculate the position vector of the target relative to the aerospace vehicle, expressed in the axes of
+% Frame 𝐸𝐸. Plot each component of the relative position vector as a function of time as a subplot on a
+% single figure.
+
+%% Question 7
+% Determine the position vector of the target relative to the aerospace vehicle, expressed in the body
+% coordinates of the aerospace vehicle. In other words, calculate the position vector of the target in Frame
+% 𝐵𝐵. Plot each component of the relative position vector as a function of time as a subplot in a single figure.
 
 function [t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData(filename)
 dat = readmatrix(filename, Range = 1);

@@ -11,7 +11,7 @@ DCM2 = RotationMatrix313(eul2);
 vEC2 = rad2deg(EulerAngles313(DCM2));
 vEC2;
 
-[t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData("3801_Sec002_Test1.csv");
+[t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData("3801_Sec001_Test1.csv");
 
 figure()
 hold on;
@@ -27,16 +27,25 @@ axis equal;
 
 
 function [t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData(filename)
-dat = readmatrix(filename);
-%isnan()
-dat(:,2) = [];
+dat = readmatrix(filename, Range = 1);
+%dat = rmmissing(dat,1); 
+
 %Main Vector
-t_vec = dat(:,1);
+framerate = dat(2,1)
+dat(:,2) = [];
+dat(1:5,:) = [];
+t_vec = dat(:,1)' ./framerate;
+
 pos_av_aspen = dat(:,11:13)';
+
 att_av_aspen = dat(:,8:10)';
-pos_tar_aspen = dat(:,2:4)';
-att_tar_aspen = dat(:,5:7)';
-[av_pos_inert, av_att, tar_pos_inert, tar_att] = ...
+
+pos_tar_aspen = dat(:,5:7)';
+
+att_tar_aspen = dat(:,2:4)';
+
+
+[av_pos_inert, av_att, tar_pos_inert, tar_att] =  ...
 ConvertASPENData(pos_av_aspen, att_av_aspen,  pos_tar_aspen, att_tar_aspen);
 
 end

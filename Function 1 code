@@ -1,0 +1,40 @@
+Function 1 Code
+
+clc;
+clear;
+filename = "3801_Sec001_Test1.csv"
+[t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData(filename)
+
+
+function [t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData(filename)
+%reads in test data
+test_data = readmatrix(filename);
+
+
+
+% deletes NAN values and removes unnecessary values
+test_data(:, 2) = [];
+test_data = rmmissing(test_data);
+
+
+
+
+%divide data for usage in the function
+pos_av_aspen = transpose(test_data(:, 11:13));
+att_av_aspen = transpose(test_data(:,8:10));
+pos_tar_aspen = transpose(test_data(:,5:7));
+att_tar_aspen = transpose(test_data(:,2:4));
+
+%create a time vector
+t_vec = test_data(:,1);
+t_vec = transpose(t_vec/100);
+
+%utilize the function convertASPENData.m
+[pos_av_class, att_av_class, pos_tar_class, att_tar_class] = ConvertASPENData(pos_av_aspen, att_av_aspen,  pos_tar_aspen, att_tar_aspen)
+
+% Return the processed data
+av_pos_inert = pos_av_class;
+av_att = att_av_class;
+tar_pos_inert = pos_tar_class;
+tar_att = att_tar_class;
+end

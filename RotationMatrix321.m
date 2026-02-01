@@ -1,4 +1,13 @@
 function DCM = RotationMatrix321(attitude321)
+
+%Contributors: Harvey Watson
+% Course number: ASEN 3801
+% File name: RotationMatrix321
+% Created: 1/27/26
+
+%Inputs: 3x1 vector of 3 Euler angles
+%Outputs: DCM of a 321 rotation sequence of input angles
+
 g = attitude321(3); %psi
 b = attitude321(2); %theta
 a = attitude321(1); %phi
@@ -14,4 +23,5 @@ R_z = @(theta_z) [cos(theta_z), sin(theta_z), 0;
     0, 0, 1];
 
 DCM = R_x(a)*R_y(b)*R_z(g);
+
 end

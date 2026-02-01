@@ -1,0 +1,87 @@
+%in this file is a combination of function 1 and problem 4
+clc;
+clear;
+filename = "3801_Sec001_Test1.csv"
+[t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData(filename)
+
+
+%Graphs for positionover time
+figure()
+hold on
+t = tiledlayout(3,1,'TileSpacing','compact')
+title(t,'Position in the inertial frame')
+ax1 = nexttile; plot(t_vec,tar_pos_inert(1,:)/1000, 'r', t_vec,av_pos_inert(1,:)/1000, 'b')
+ylabel("X Component (m)")
+xlabel("Time (s)")
+ylim(ax1,[-5,5])
+legend("Target","Aircraft")
+
+ax2 = nexttile; plot(t_vec,tar_pos_inert(2,:)/1000, 'r', t_vec,av_pos_inert(2,:)/1000 , 'b')
+ylabel("Y Component (m)")
+xlabel("Time (s)")
+ylim(ax2,[-5,5])
+legend("Target","Aircraft")
+
+ax3 = nexttile; plot(t_vec,tar_pos_inert(3,:)/1000, 'r', t_vec,av_pos_inert(3,:)/1000 ,'b')
+ylabel("Z Component (m)")
+xlabel("Time (s)")
+ylim(ax3,[-5,5])
+legend("Target","Aircraft")
+
+hold off
+
+%Graphs for euler angle over time
+figure()
+hold on
+t = tiledlayout(3,1,'TileSpacing','compact')
+title(t,'Euler Angles over time')
+ax1 = nexttile; plot(t_vec,rad2deg(av_att(1,:)), 'b' ,t_vec,rad2deg(tar_att(1,:)), 'r')
+ylabel("Roll (degrees)")
+xlabel("Time (s)")
+legend("Aircraft","Target")
+
+ax2 = nexttile; plot(t_vec,rad2deg(av_att(2,:)), 'b' ,t_vec,rad2deg(tar_att(2,:)), 'r')
+ylabel("Pitch (degrees)")
+xlabel("Time (s)")
+legend("Aircraft","Target")
+ax3 = nexttile; plot(t_vec,rad2deg(av_att(3,:)), 'b' ,t_vec,rad2deg(tar_att(3,:)), 'r')
+ylabel("Yaw (degrees)")
+xlabel("Time (s)")
+legend("Aircraft","Target")
+
+hold off
+
+
+function [t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData(filename)
+%reads in test data
+test_data = readmatrix(filename);
+
+
+
+% deletes NAN values and removes unnecessary values
+test_data(:, 2) = [];
+test_data = rmmissing(test_data);
+
+
+
+
+%divide data for usage in the function
+pos_av_aspen = transpose(test_data(:, 11:13));
+att_av_aspen = transpose(test_data(:,8:10));
+pos_tar_aspen = transpose(test_data(:,5:7));
+att_tar_aspen = transpose(test_data(:,2:4));
+
+%create a time vector
+t_vec = test_data(:,1);
+t_vec = transpose(t_vec/100);
+
+%utilize the function convertASPENData.m
+[pos_av_class, att_av_class, pos_tar_class, att_tar_class] = ConvertASPENData(pos_av_aspen, att_av_aspen,  pos_tar_aspen, att_tar_aspen)
+
+% Return the processed data
+av_pos_inert = pos_av_class;
+av_att = att_av_class;
+tar_pos_inert = pos_tar_class;
+tar_att = att_tar_class;
+end
+

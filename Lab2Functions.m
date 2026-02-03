@@ -167,7 +167,23 @@ for i = 1:n
 
     r_rel_B(:,i) = (DCM * r_rel_E)*.001; % change frame
 end
+figure
+subplot(3,1,1)
+plot(1:n, r_rel_B(1,:))
+ylabel('X_B m')
+grid on
+title('Target Relative Position in Vehicle Body Frame')
 
+subplot(3,1,2)
+plot(1:n, r_rel_B(2,:))
+ylabel('Y_B m')
+grid on
+
+subplot(3,1,3)
+plot(1:n, r_rel_B(3,:))
+ylabel('Z_B m')
+xlabel('Time step in Hz')
+grid on
 
 
 
@@ -253,3 +269,4 @@ attitude313 = attitude313';
 
 
 end
+

@@ -140,6 +140,41 @@ legend("Relative Position")
 % coordinates of the aerospace vehicle. In other words, calculate the position vector of the target in Frame
 % 𝐵𝐵. Plot each component of the relative position vector as a function of time as a subplot in a single figure.
 
+
+n = length(t_vec);
+for i = 1:n
+    
+    phi   = av_att(1,i);    
+    theta = av_att(2,i);  % Euler angles     
+    psi   = av_att(3,i);    
+
+    cphi = cos(phi); 
+    sphi = sin(phi);
+    cth  = cos(theta); % Shortcuts for DCM
+    sth = sin(theta);
+    cpsi = cos(psi);
+    spsi = sin(psi);
+
+    DCM = [ cth*cpsi,               cth*spsi,             -sth;
+
+             sphi*sth*cpsi-cphi*spsi, sphi*sth*spsi+cphi*cpsi, sphi*cth;
+
+             cphi*sth*cpsi+sphi*spsi, cphi*sth*spsi-sphi*cpsi, cphi*cth ]; %DCM for frame change
+
+
+
+    r_rel_E = tar_pos_inert(:,i) - av_pos_inert(:,i); % Calc position 
+
+    r_rel_B(:,i) = (DCM * r_rel_E)*.001; % change frame
+end
+
+
+
+
+
+
+
+
 function [t_vec, av_pos_inert, av_att, tar_pos_inert, tar_att] = LoadASPENData(filename)
 dat = readmatrix(filename, Range = 1);
 dat = rmmissing(dat,1); 
@@ -215,5 +250,6 @@ attitude313(2,:) = acos(DCM(3,3));
 attitude313(3,:) = atan2(DCM(1,3),DCM(2,3));
 
 attitude313 = attitude313';
+
 
 end
